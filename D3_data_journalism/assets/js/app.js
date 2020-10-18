@@ -26,7 +26,7 @@ var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // Configure a parseTime function which will return a new Date object from a string
-var parseTime = d3.timeParse("%Y");
+// var parseTime = d3.timeParse("%Y");
 
 // Load data from forcepoints.csv
 d3.csv("assets/data/data.csv").then(forceData => {
@@ -68,15 +68,15 @@ d3.csv("assets/data/data.csv").then(forceData => {
 
   // Configure a line function which will plot the x and y coordinates using our scales
   
-  var drawScatter = d3.
+  // var drawScatter = d3.
   
   
   
   
   
-  // var drawLine = d3.line()
-  //   .x(data => xLinearScale(poverty))
-  //   .y(data => yLinearScale(lacks));
+  var drawLine = d3.line()
+    .x(data => xLinearScale(poverty))
+    .y(data => yLinearScale(lacks));
 
   // Append an SVG path and plot its points using the line function
   chartGroup.append("path")
