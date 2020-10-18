@@ -36,9 +36,9 @@ d3.csv("assets/data/data.csv").then(forceData => {
 
   // Format the date and cast the force value to a number
   forceData.forEach(data => {
-    data.poverty = +data.poverty;
-    lacks = 100-data.healthcare;
-    console.log(data.poverty);
+    poverty = +data.poverty;
+    lacks = +data.healthcare;
+    console.log(poverty);
     console.log(lacks);
   });
 
