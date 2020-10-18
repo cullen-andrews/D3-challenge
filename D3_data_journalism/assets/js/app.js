@@ -1,7 +1,7 @@
 // @TODO: YOUR CODE HERE!
 // Define SVG area dimensions
 var svgWidth = 960;
-var svgHeight = 500;
+var svgHeight = 960;
 
 // Define the chart's margins as an object
 var margin = {
@@ -65,21 +65,18 @@ d3.csv("assets/data/data.csv").then(data => {
   
   // var drawScatter = d3.
   
-  //Experiment
+  
   // Add dots
   svg.append('g')
   .selectAll("dot")
   .data(data)
   .enter()
   .append("circle")
-    .attr("cx", function (d) { return xLinearScale(d.poverty); } )
-    .attr("cy", function (d) { return yLinearScale(d.healthcare); } )
-    .attr("r", 1.5)
+    .attr("cx", function (d) { return xLinearScale(d.poverty) + margin.left; } )
+    .attr("cy", function (d) { return yLinearScale(d.healthcare) + margin.top; } )
+    .attr("r", 10)
     .style("fill", "#69b3a2")
 
-    
-  //Experiment above
-  
   
   
   var drawLine = d3.line()
@@ -103,5 +100,24 @@ d3.csv("assets/data/data.csv").then(data => {
     .classed("axis", true)
     .attr("transform", `translate(0, ${chartHeight})`)
     .call(bottomAxis);
+
+  // //Create the ISO country codes as text elements
+  // chartgroup.append("g")
+  // .selectAll("text")
+  // .attr("font-family", "Yanone Kaffeesatz")
+  // .attr("font-weight", 700)
+  // .attr("text-anchor", "middle")
+  // .selectAll("text")
+  // .data(data)
+  // .join("text")
+  // // .attr("id", "isoCode")
+  // .attr("opacity", 1)
+  // // .attr("dy", "0.35em")
+  // .attr("x", d => xLinearScale(d.poverty))
+  // .attr("y", d => yLinearScale(d.healthcare)}
+  // .attr("font-size", "15px")
+  // .attr("fill", "#000000")
+  // // .text(data => data.abbr); 
+
 
   }).catch(error => console.log(error));
