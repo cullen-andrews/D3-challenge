@@ -36,9 +36,19 @@ d3.csv("assets/data/data.csv").then(forceData => {
 
   // Format the date and cast the force value to a number
   forceData.forEach(data => {
-    data.date = parseTime(data.date);
-    data.force = +data.force;
+    data.poverty = +data.poverty;
+    lacks = 100-data.healthcare;
+    console.log(data.poverty);
+    console.log(lacks);
   });
+
+
+
+
+  //   forceData.forEach(data => {
+//     data.date = parseTime(data.date);
+//     data.force = +data.force;
+//   });
 
   // Configure a time scale
   // d3.extent returns the an array containing the min and max values for the property specified
