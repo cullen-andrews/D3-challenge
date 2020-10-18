@@ -45,21 +45,16 @@ d3.csv("assets/data/data.csv").then(forceData => {
 
 
 
-  //   forceData.forEach(data => {
-//     data.date = parseTime(data.date);
-//     data.force = +data.force;
-//   });
-
-  // Configure a time scale
+  
   // d3.extent returns the an array containing the min and max values for the property specified
   var xLinearScale = d3.scaleLinear()
-    .domain(d3.extent(forceData, data => poverty))
+    .domain(d3.extent(forceData, data => +data.poverty))
     .range([0, chartWidth]);
 
   // Configure a linear scale with a range between the chartHeight and 0
   var yLinearScale = d3.scaleLinear()
-    .domain(d3.extent(forceData, data => lacks))
-    .range([0, chartHeight]);
+    .domain(d3.extent(forceData, data => +data.healthcare))
+    .range([chartHeight, 0]);
 
   // Create two new functions passing the scales in as arguments
   // These will be used to create the chart's axes
