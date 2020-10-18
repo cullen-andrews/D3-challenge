@@ -66,21 +66,31 @@ d3.csv("assets/data/data.csv").then(data => {
   // var drawScatter = d3.
   
   //Experiment
-  
+  // Add dots
+  svg.append('g')
+  .selectAll("dot")
+  .data(data)
+  .enter()
+  .append("circle")
+    .attr("cx", function (d) { return xLinearScale(d.poverty); } )
+    .attr("cy", function (d) { return yLinearScale(d.healthcare); } )
+    .attr("r", 1.5)
+    .style("fill", "#69b3a2")
+
     
   //Experiment above
   
   
   
   var drawLine = d3.line()
-    .x(data => xLinearScale(+data.poverty))
-    .y(data => yLinearScale(+data.healthcare));
+    .x(data => xLinearScale(data.poverty))
+    .y(data => yLinearScale(data.healthcare));
 
   // Append an SVG path and plot its points using the line function
-  chartGroup.append("path")
-    // The drawLine function returns the instructions for creating the line for forceData
-    .attr("d", drawLine(data))
-    .classed("line", true);
+  // chartGroup.append("path")
+  //   // The drawLine function returns the instructions for creating the line for forceData
+  //   .attr("d", drawLine(data))
+  //   .classed("line", true);
 
   // Append an SVG group element to the chartGroup, create the left axis inside of it
   chartGroup.append("g")
