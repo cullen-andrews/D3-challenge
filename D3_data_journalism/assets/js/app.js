@@ -52,24 +52,31 @@ d3.csv("assets/data/data.csv").then(forceData => {
 
   // Configure a time scale
   // d3.extent returns the an array containing the min and max values for the property specified
-  var xTimeScale = d3.scaleTime()
-    .domain(d3.extent(forceData, data => data.date))
+  var xLinearScale = d3.scaleLinear()
+    .domain(d3.extent(forceData, data => poverty))
     .range([0, chartWidth]);
 
   // Configure a linear scale with a range between the chartHeight and 0
   var yLinearScale = d3.scaleLinear()
-    .domain([0, d3.max(forceData, data => data.force)])
-    .range([chartHeight, 0]);
+    .domain(d3.extent(forceData, data => lacks))
+    .range([0, chartHeight]);
 
   // Create two new functions passing the scales in as arguments
   // These will be used to create the chart's axes
-  var bottomAxis = d3.axisBottom(xTimeScale);
+  var bottomAxis = d3.axisBottom(xLinearScale);
   var leftAxis = d3.axisLeft(yLinearScale);
 
   // Configure a line function which will plot the x and y coordinates using our scales
-  var drawLine = d3.line()
-    .x(data => xTimeScale(data.date))
-    .y(data => yLinearScale(data.force));
+  
+  var drawScatter = d3.
+  
+  
+  
+  
+  
+  // var drawLine = d3.line()
+  //   .x(data => xLinearScale(poverty))
+  //   .y(data => yLinearScale(lacks));
 
   // Append an SVG path and plot its points using the line function
   chartGroup.append("path")
