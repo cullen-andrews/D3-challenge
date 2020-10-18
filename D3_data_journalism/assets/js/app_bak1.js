@@ -29,17 +29,17 @@ var chartGroup = svg.append("g")
 // var parseTime = d3.timeParse("%Y");
 
 // Load data from forcepoints.csv
-d3.csv("assets/data/data.csv").then(data => {
+d3.csv("assets/data/data.csv").then(forceData => {
 
   // Print the forceData
-  console.log(data);
+  console.log(forceData);
 
   // Format the date and cast the force value to a number
-  data.forEach(data => {
-    data.poverty = +data.poverty;
-    data.healthcare = +data.healthcare;
-    console.log(data.poverty);
-    console.log(data.healthcare);
+  forceData.forEach(data => {
+    poverty = +data.poverty;
+    lacks = +data.healthcare;
+    console.log(poverty);
+    console.log(lacks);
   });
 
 
@@ -48,12 +48,12 @@ d3.csv("assets/data/data.csv").then(data => {
   
   // d3.extent returns the an array containing the min and max values for the property specified
   var xLinearScale = d3.scaleLinear()
-    .domain(d3.extent(data, data => +data.poverty))
+    .domain(d3.extent(forceData, data => +data.poverty))
     .range([0, chartWidth]);
 
   // Configure a linear scale with a range between the chartHeight and 0
   var yLinearScale = d3.scaleLinear()
-    .domain(d3.extent(data, data => +data.healthcare))
+    .domain(d3.extent(forceData, data => +data.healthcare))
     .range([chartHeight, 0]);
 
   // Create two new functions passing the scales in as arguments
@@ -66,7 +66,7 @@ d3.csv("assets/data/data.csv").then(data => {
   // var drawScatter = d3.
   
   //Experiment
-  
+  // svg.selectAll("dot")
     
   //Experiment above
   
@@ -79,7 +79,7 @@ d3.csv("assets/data/data.csv").then(data => {
   // Append an SVG path and plot its points using the line function
   chartGroup.append("path")
     // The drawLine function returns the instructions for creating the line for forceData
-    .attr("d", drawLine(data))
+    .attr("d", drawLine(forceData))
     .classed("line", true);
 
   // Append an SVG group element to the chartGroup, create the left axis inside of it
