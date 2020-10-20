@@ -25,16 +25,13 @@ var svg = d3.select("#scatter")
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-// Configure a parseTime function which will return a new Date object from a string
-// var parseTime = d3.timeParse("%Y");
-
-// Load data from forcepoints.csv
+// Load data from assets/data/data.csv
 d3.csv("assets/data/data.csv").then(data => {
 
-  // Print the forceData
+  // Print the data
   console.log(data);
 
-  // Format the date and cast the force value to a number
+  // Cast the poverty and healthcare values to numbers
   data.forEach(data => {
     data.poverty = +data.poverty;
     data.healthcare = +data.healthcare;
@@ -42,10 +39,6 @@ d3.csv("assets/data/data.csv").then(data => {
     console.log(data.healthcare);
   });
 
-
-
-
-  
   // d3.extent returns the an array containing the min and max values for the property specified
   var xLinearScale = d3.scaleLinear()
     .domain(d3.extent(data, data => +data.poverty))
@@ -61,33 +54,17 @@ d3.csv("assets/data/data.csv").then(data => {
   var bottomAxis = d3.axisBottom(xLinearScale);
   var leftAxis = d3.axisLeft(yLinearScale);
 
-  // Configure a line function which will plot the x and y coordinates using our scales
-  
-  // var drawScatter = d3.
-  
-  
-  // Add dots
+  // Add dots--Credit to d3 documentation writers at https://www.d3-graph-gallery.com/graph/scatter_basic.html
   svg.append('g')
   .selectAll("dot")
   .data(data)
   .enter()
   .append("circle")
-    .attr("cx", function (d) { return xLinearScale(d.poverty) + margin.left; } )
-    .attr("cy", function (d) { return yLinearScale(d.healthcare) + margin.top; } )
-    .attr("r", 10)
-    .style("fill", "#69b3a2")
-
-  
-  
-  var drawLine = d3.line()
-    .x(data => xLinearScale(data.poverty))
-    .y(data => yLinearScale(data.healthcare));
-
-  // Append an SVG path and plot its points using the line function
-  // chartGroup.append("path")
-  //   // The drawLine function returns the instructions for creating the line for forceData
-  //   .attr("d", drawLine(data))
-  //   .classed("line", true);
+  .attr("cx", function (d) { return xLinearScale(d.poverty) + margin.left; } )
+  .attr("cy", function (d) { return yLinearScale(d.healthcare) + margin.top; } )
+  .attr("r", 10)
+  .attr("fill-opacity", 0.6)
+  .style("fill", "#69b3a2")
 
   // Append an SVG group element to the chartGroup, create the left axis inside of it
   chartGroup.append("g")
@@ -101,23 +78,36 @@ d3.csv("assets/data/data.csv").then(data => {
     .attr("transform", `translate(0, ${chartHeight})`)
     .call(bottomAxis);
 
-  // //Create the ISO country codes as text elements
-  // chartgroup.append("g")
-  // .selectAll("text")
-  // .attr("font-family", "Yanone Kaffeesatz")
-  // .attr("font-weight", 700)
-  // .attr("text-anchor", "middle")
-  // .selectAll("text")
-  // .data(data)
-  // .join("text")
-  // // .attr("id", "isoCode")
-  // .attr("opacity", 1)
-  // // .attr("dy", "0.35em")
-  // .attr("x", d => xLinearScale(d.poverty))
-  // .attr("y", d => yLinearScale(d.healthcare)}
-  // .attr("font-size", "15px")
-  // .attr("fill", "#000000")
-  // // .text(data => data.abbr); 
+  
+  // Append y-axis label                 
+  chartGroup.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - margin.left)
+    .attr("x", 0 - (chartHeight / 2))
+    .attr("dy", "1em")
+    .classed("axis-text", true)
+    .text("% Without Healthcare");               
+
+  // Append x-axis label                 
+  chartGroup.append("text")
+    .attr("transform","rotate(0)")
+    .attr("y", 0 + (chartHeight + margin.bottom / 2))
+    .attr("x", 0 + (chartWidth / 2))
+    .attr("dx", "1em")
+    .classed("axis-text", true)
+    .text("% in Poverty");
+
+
+  // Append state abbreviations  
+    chartGroup.append("g").selectAll("text")
+    .data(data)
+    .join("text")
+    .text(d => d.abbr)
+    .attr("x", d => xLinearScale(d.poverty))
+    .attr("y", d => yLinearScale(d.healthcare))
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "central")
+    .attr("font-size", "10px");
 
 
   }).catch(error => console.log(error));
